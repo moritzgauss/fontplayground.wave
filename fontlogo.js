@@ -25,11 +25,21 @@ function generateFontLogo() {
   // Randomly decide between uppercase "MG" or lowercase "mg"
   const text = Math.random() > 0.5 ? "MG" : "mg";
 
-  // Set random kerning (letter spacing) between -20 and 20 pixels for overlap/spacing
-  const kerning = Math.floor(Math.random() * 41) - 20;
+  // Set a consistent font size for both letters
+  const fontSize = 150;  // Increased for better visibility
+  ctx.font = `bold ${fontSize}px ${randomFont}`;
 
-  // Set font size (consistent size)
-  ctx.font = `bold 100px ${randomFont}`;
+  // Calculate kerning (letter spacing) between -40 and 40 pixels for overlap/spacing
+  const kerning = Math.floor(Math.random() * 81) - 40;
+
+  // Calculate the total width of both letters with kerning
+  const textWidth1 = ctx.measureText(text[0]).width;
+  const textWidth2 = ctx.measureText(text[1]).width;
+  const totalTextWidth = textWidth1 + textWidth2 + kerning;
+
+  // Center the text on the canvas by calculating the start point
+  const xBase = (canvas.width - totalTextWidth) / 2;
+  const yBase = canvas.height / 2 + fontSize / 3; // Adjust vertical position slightly to center text visually
 
   // Randomly decide fill color (either white or black)
   ctx.fillStyle = Math.random() > 0.5 ? 'white' : 'black';
@@ -42,19 +52,15 @@ function generateFontLogo() {
     ctx.strokeStyle = 'black';
     const strokeWidth = Math.floor(Math.random() * 7) + 2;
     ctx.lineWidth = strokeWidth;
-    ctx.strokeText(text, canvas.width / 4 + Math.random() * (canvas.width / 2), canvas.height / 4 + Math.random() * (canvas.height / 2));
+    ctx.strokeText(text[0], xBase, yBase);
+    ctx.strokeText(text[1], xBase + textWidth1 + kerning, yBase);
   }
 
-  // Set text position for the first letter
-  const x1 = canvas.width / 4 + Math.random() * (canvas.width / 2);
-  const y1 = canvas.height / 4 + Math.random() * (canvas.height / 2);
-
   // Draw the first letter
-  ctx.fillText(text[0], x1, y1);
+  ctx.fillText(text[0], xBase, yBase);
 
-  // Draw the second letter, applying kerning (could overlap or have space)
-  const x2 = x1 + ctx.measureText(text[0]).width + kerning;
-  ctx.fillText(text[1], x2, y1);
+  // Draw the second letter, applying kerning
+  ctx.fillText(text[1], xBase + textWidth1 + kerning, yBase);
 
   // Update variation info
   document.getElementById('variation-info').textContent = `Current Variation: ${currentVariation}/${maxVariations}`;
