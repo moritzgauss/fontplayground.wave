@@ -22,11 +22,17 @@ function generateFontLogo() {
   // Pick a random font
   const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
 
+  // Randomly decide between uppercase "MG" or lowercase "mg"
+  const text = Math.random() > 0.5 ? "MG" : "mg";
+
+  // Set random kerning (letter spacing) between -20 and 20 pixels for overlap/spacing
+  const kerning = Math.floor(Math.random() * 41) - 20;
+
   // Set font size (consistent size)
   ctx.font = `bold 100px ${randomFont}`;
 
-  // Set fill color (white)
-  ctx.fillStyle = 'white';
+  // Randomly decide fill color (either white or black)
+  ctx.fillStyle = Math.random() > 0.5 ? 'white' : 'black';
 
   // Randomly decide whether to apply a stroke (50% chance)
   const applyStroke = Math.random() > 0.5;
@@ -36,11 +42,19 @@ function generateFontLogo() {
     ctx.strokeStyle = 'black';
     const strokeWidth = Math.floor(Math.random() * 7) + 2;
     ctx.lineWidth = strokeWidth;
-    ctx.strokeText("MG", canvas.width / 4 + Math.random() * (canvas.width / 2), canvas.height / 4 + Math.random() * (canvas.height / 2));
+    ctx.strokeText(text, canvas.width / 4 + Math.random() * (canvas.width / 2), canvas.height / 4 + Math.random() * (canvas.height / 2));
   }
 
-  // Draw the "MG" text (fill only)
-  ctx.fillText("MG", canvas.width / 4 + Math.random() * (canvas.width / 2), canvas.height / 4 + Math.random() * (canvas.height / 2));
+  // Set text position for the first letter
+  const x1 = canvas.width / 4 + Math.random() * (canvas.width / 2);
+  const y1 = canvas.height / 4 + Math.random() * (canvas.height / 2);
+
+  // Draw the first letter
+  ctx.fillText(text[0], x1, y1);
+
+  // Draw the second letter, applying kerning (could overlap or have space)
+  const x2 = x1 + ctx.measureText(text[0]).width + kerning;
+  ctx.fillText(text[1], x2, y1);
 
   // Update variation info
   document.getElementById('variation-info').textContent = `Current Variation: ${currentVariation}/${maxVariations}`;
