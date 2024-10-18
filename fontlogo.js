@@ -22,30 +22,26 @@ function generateFontLogo() {
   // Pick random font
   const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
 
-  // Set random font size between 80px and 150px
-  const fontSize = Math.floor(Math.random() * 70) + 80;
-  
-  // Set random stroke width between 2 and 8
-  const strokeWidth = Math.floor(Math.random() * 7) + 2;
-
-  // Set font style
-  ctx.font = `bold ${fontSize}px ${randomFont}`;
+  // Set font style and size (consistent size as in original example)
+  ctx.font = `bold 100px ${randomFont}`;
 
   // Set stroke style (black) and fill style (white)
   ctx.strokeStyle = 'black';
+
+  // Set a random stroke width between 2 and 8 (new feature)
+  const strokeWidth = Math.floor(Math.random() * 7) + 2;
   ctx.lineWidth = strokeWidth;
+
+  // Set fill color (white)
   ctx.fillStyle = 'white';
 
-  // Generate random position for the text
-  const x = Math.random() * (canvas.width - 200);
-  const y = Math.random() * (canvas.height - 100) + 100;
+  // Generate random position for the text (consistent logic for random placement)
+  const x = canvas.width / 4 + Math.random() * (canvas.width / 2);
+  const y = canvas.height / 4 + Math.random() * (canvas.height / 2);
 
-  // Draw the random letters (vary between 'MG' and other letters)
-  const randomLetters = Math.random() > 0.5 ? "MG" : "G";
-
-  // Draw the text with stroke and fill
-  ctx.strokeText(randomLetters, x, y);
-  ctx.fillText(randomLetters, x, y);
+  // Draw text "MG"
+  ctx.strokeText("MG", x, y);
+  ctx.fillText("MG", x, y);
 
   // Update variation info
   document.getElementById('variation-info').textContent = `Current Variation: ${currentVariation}/${maxVariations}`;
