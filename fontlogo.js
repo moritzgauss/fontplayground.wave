@@ -1,12 +1,7 @@
 // fontlogo.js
 
-// Array of fonts including common web-safe fonts and some Google Fonts
-const fonts = [
-    'Georgia', 'Arial', 'Verdana', 'Helvetica', 'Times New Roman', 
-    'Courier New', 'Comic Sans MS', 'Trebuchet MS', 'Impact', 
-    'Lucida Console', 'Palatino Linotype', 'Arial Black', 'Tahoma',
-    'Pacifico', 'Lobster'
-];
+// Only using Pinyon Script from Google Fonts
+const font = 'Pinyon Script';
 
 // Max number of variations
 const maxVariations = 10000;
@@ -21,15 +16,12 @@ function generateFontLogo() {
     // Clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Pick a random font
-    const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
-
     // Randomly decide between uppercase "MG" or lowercase "mg"
     const text = Math.random() > 0.5 ? "MG" : "mg";
 
     // Set a consistent font size for both letters
     const fontSize = 150;  // Increased for better visibility
-    ctx.font = `bold ${fontSize}px ${randomFont}`;
+    ctx.font = `${fontSize}px ${font}`;
 
     // Calculate kerning (letter spacing) between -40 and 40 pixels for overlap/spacing
     const kerning = Math.floor(Math.random() * 81) - 40;
