@@ -22,24 +22,22 @@ function generateFontLogo() {
   // Pick random font
   const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
 
-  // Set font style and size (consistent size as in the original example)
+  // Set consistent font style and size as before
   ctx.font = `bold 100px ${randomFont}`;
-
-  // Set a random stroke width between 2 and 8
-  const strokeWidth = Math.floor(Math.random() * 7) + 2;
-
-  // Set stroke style (black) and stroke width
-  ctx.strokeStyle = 'black';
-  ctx.lineWidth = strokeWidth;
 
   // Set fill style (white)
   ctx.fillStyle = 'white';
+
+  // Only vary stroke width, random between 2 and 8
+  ctx.strokeStyle = 'black';
+  const strokeWidth = Math.floor(Math.random() * 7) + 2;  // Random stroke width
+  ctx.lineWidth = strokeWidth;
 
   // Generate random position for the text (consistent with original logic)
   const x = canvas.width / 4 + Math.random() * (canvas.width / 2);
   const y = canvas.height / 4 + Math.random() * (canvas.height / 2);
 
-  // Draw text "MG"
+  // Draw the "MG" text
   ctx.strokeText("MG", x, y);
   ctx.fillText("MG", x, y);
 
