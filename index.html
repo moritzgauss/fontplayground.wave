@@ -1,75 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Font-Based Logo Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=ABeeZee&family=ADLaM+Display&family=AR+One+Sans&family=Abel&family=Abhaya+Libre&family=Aboreto&family=Abril+Fatface&family=Abyssinica+SIL&family=Aclonica&family=Acme&family=Actor&family=Adamina&family=Advent+Pro&family=Aguafina+Script&family=Akronim&family=Aladin&family=Alegreya&family=Aleo&family=Alice&family=Alike&family=Allerta&family=Allura&family=Almendra&family=Amaranth&family=Amatic+SC&family=Amiri&family=Anaheim&family=Andika&family=Anton&family=Arapey&family=Arbutus+Slab&family=Arima+Madurai&family=Armata&family=Arvo&family=Asap&family=Asar&family=Assistant&family=Athiti&family=Atma&family=Aubrey&family=Averia+Libre&family=Averia+Sans+Libre&family=Azeret+Mono&family=Bad+Script&family=Bai+Jamjuree&family=Ballet&family=Baloo&family=Balthazar&family=Bangers&family=Baskerville&family=Beau+Rivage&family=Bevan&family=Big+Shoulders+Display&family=Big+Shoulders+Text&family=Bitter&family=Bungee&family=Cabin&family=Cabin+Condensed&family=Cabin+Sketch&family=Candal&family=Cantata+One&family=Cardo&family=Carlito&family=Caveat&family=Charmonman&family=Chewy&family=Chivo&family=Cinzel&family=Cinzel+Decorative&family=Clicker+Script&family=Coda&family=Coda+Caption&family=Comic+Sans+MS&family=Courgette&family=Dancing+Script&family=Darker+Grotesque&family=Dawning+of+a+New+Day&family=Dosis&family=Droid+Sans&family=Droid+Serif&family=EB+Garamond&family=Euphoria+Script&family=Fauna+One&family=Fjalla+One&family=Fredoka+One&family=Gloock&family=Gloria+Hallelujah&family=Gochi+Hand&family=Granada&family=Great+Vibes&family=Hanalei&family=Hind&family=Hind+Madurai&family=Homemade+Apple&family=Inconsolata&family=Indie+Flower&family=Julius+Sans+One&family=Just+Me+Again+Down+Here&family=Kalam&family=Kanit&family=Karla&family=Kavoon&family=Knewave&family=Lobster&family=Lobster+Two&family=Lora&family=Mali&family=Marck+Script&family=Merriweather&family=Monoton&family=Montserrat&family=Mr+Dafoe&family=Mr+Bedfort&family=Nanum+Gothic&family=Nerko+One&family=Noto+Sans&family=Noto+Serif&family=Noticia+Text&family=Open+Sans&family=Oswald&family=Over+the+Rainbow&family=Pangram&family=Patua+One&family=Play&family=Playfair+Display&family=Poiret+One&family=Poppins&family=Quicksand&family=Raleway&family=Roboto&family=Roboto+Condensed&family=Sacramento&family=Satisfy&family=Sen&family=Shadows+Into+Light&family=Sigmar+One&family=Sriracha&family=Staatliches&family=Tangerine&family=Teko&family=Titillium+Web&family=Ubuntu&family=Unica77+Display&family=Unica77+Text&family=Varela+Round&family=Vibur&family=Volkhov&family=Zeyada&display=swap" rel="stylesheet">
-</head>
-  <style>
-    body {
-      font-family: 'Pinyon Script', cursive;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-color: #f0f0f0;
-      margin: 0;
-    }
-
-    #pattern-container {
-      width: 600px;
-      height: 600px;
-      border: 2px solid black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      overflow: hidden;
-    }
-
-    canvas {
-      width: 100%;
-      height: 100%;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #333;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    #variation-info {
-      font-size: 18px;
-      margin-top: 10px;
-    }
-
-    /* Media query for mobile view */
-    @media (max-width: 768px) {
-      #pattern-container {
-        width: 100%;
-        max-width: 300px;
-        height: auto;
-        max-height: 300px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Font Logo Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=ABeeZee&family=ADLaM+Display&family=AR+One+Sans&family=Abel&family=Abhaya+Libre&family=Abril+Fatface&family=Bangers&family=Georgia&family=Roboto&family=Lobster&family=Pacifico&family=Great+Vibes&family=Dancing+Script&family=Comic+Sans+MS&display=swap" rel="stylesheet">
+    <style>
+        canvas {
+            border: 1px solid #000; /* Optional: to see the canvas */
+        }
+    </style>
 </head>
 <body>
+    <canvas id="patternCanvas" width="800" height="400"></canvas>
+    <div id="variation-info"></div>
+    <button onclick="generateFontLogo()">Generate New Logo</button>
 
-<div id="pattern-container">
-  <canvas id="patternCanvas" width="600" height="600"></canvas>
-</div>
+    <script>
+        // fontlogo.js
 
-<button onclick="generateFontLogo()">Generate New Font Logo</button>
-<p id="variation-info">Current Variation: 1/10000</p>
+        // Array of fonts, including script fonts
+        const fonts = [
+            'ABeeZee', 'ADLaM Display', 'AR One Sans', 'Abel', 'Abhaya Libre', 'Abril Fatface',
+            'Bangers', 'Georgia', 'Roboto', 'Lobster', 'Pacifico', 'Great Vibes', 'Dancing Script',
+            'Comic Sans MS'
+        ];
 
-<!-- Link to the external JavaScript file -->
-<script src="fontlogo.js"></script>
+        // Max number of variations
+        const maxVariations = 10000;
+        let currentVariation = 1;
 
+        // Get the canvas and its context
+        const canvas = document.getElementById('patternCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Function to generate a random font-based logo
+        function generateFontLogo() {
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Pick a random font
+            const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
+
+            // Randomly decide between uppercase "MG" or lowercase "mg"
+            const text = Math.random() > 0.5 ? "MG" : "mg";
+
+            // Set a consistent font size for both letters
+            const fontSize = 150;  // Increased for better visibility
+            ctx.font = `bold ${fontSize}px ${randomFont}`;
+
+            // Calculate kerning (letter spacing) between -40 and 40 pixels for overlap/spacing
+            const kerning = Math.floor(Math.random() * 81) - 40;
+
+            // Calculate the total width of both letters with kerning
+            const textWidth1 = ctx.measureText(text[0]).width;
+            const textWidth2 = ctx.measureText(text[1]).width;
+            const totalTextWidth = textWidth1 + textWidth2 + kerning;
+
+            // Center the text on the canvas by calculating the start point
+            const xBase = (canvas.width - totalTextWidth) / 2;
+            const yBase = canvas.height / 2 + fontSize / 3; // Adjust vertical position slightly to center text visually
+
+            // Randomly decide whether to apply a stroke (50% chance)
+            const applyStroke = Math.random() > 0.5;
+
+            if (applyStroke) {
+                // If stroke is applied, use a random stroke width between 2 and 8
+                ctx.strokeStyle = 'black';
+                const strokeWidth = Math.floor(Math.random() * 7) + 2; // Random stroke width
+                ctx.lineWidth = strokeWidth;
+
+                // Draw the text only as a stroke (no fill)
+                ctx.strokeText(text[0], xBase, yBase);
+                ctx.strokeText(text[1], xBase + textWidth1 + kerning, yBase);
+            } else {
+                // Set fill color to black for filled text
+                ctx.fillStyle = 'black';
+                // Draw the filled text if no stroke is applied
+                ctx.fillText(text[0], xBase, yBase);
+                ctx.fillText(text[1], xBase + textWidth1 + kerning, yBase);
+            }
+
+            // Update variation info
+            document.getElementById('variation-info').textContent = `Current Variation: ${currentVariation}/${maxVariations}`;
+            currentVariation = (currentVariation % maxVariations) + 1;
+        }
+
+        // Generate an initial logo on page load
+        generateFontLogo();
+    </script>
 </body>
 </html>
