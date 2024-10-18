@@ -1,10 +1,11 @@
 // fontlogo.js
 
-// Array of fonts, including script fonts
+// Array of fonts including common web-safe fonts and some Google Fonts
 const fonts = [
-    'ABeeZee', 'ADLaM Display', 'AR One Sans', 'Abel', 'Abhaya Libre', 'Abril Fatface',
-    'Bangers', 'Georgia', 'Roboto', 'Lobster', 'Pacifico', 'Great Vibes', 'Dancing Script',
-    'Comic Sans MS'
+    'Georgia', 'Arial', 'Verdana', 'Helvetica', 'Times New Roman', 
+    'Courier New', 'Comic Sans MS', 'Trebuchet MS', 'Impact', 
+    'Lucida Console', 'Palatino Linotype', 'Arial Black', 'Tahoma',
+    'Pacifico', 'Lobster'
 ];
 
 // Max number of variations
