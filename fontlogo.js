@@ -32,56 +32,54 @@ const ctx = canvas.getContext('2d');
 
 // Funktion zum Erzeugen eines zufälligen Schriftlogo
 function generateFontLogo() {
-  // Leeren des Canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Zufällige Auswahl einer Schriftart
+  const inputText = document.getElementById('customText').value.trim();
+  const defaultText = Math.random() > 0.5 ? "MG" : "mg";
+  const text = /^[a-zA-Z0-9]{2,4}$/.test(inputText) ? inputText : defaultText;
+
   const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
-
-  // Zufällige Entscheidung zwischen Großbuchstaben "MG" oder Kleinbuchstaben "mg"
-  const text = Math.random() > 0.5 ? "MG" : "mg";
-
-  // Konsistente Schriftgröße für beide Buchstaben
-  const fontSize = 150;  // Erhöht für bessere Sichtbarkeit
+  const fontSize = 150;
   ctx.font = `bold ${fontSize}px ${randomFont}`;
 
-  // Berechnung des Kerning (Buchstabenabstand)
+  // Kerning logic for 2–4 characters
   const kerning = Math.floor(Math.random() * 81) - 40;
 
-  // Berechnung der Gesamtbreite beider Buchstaben mit Kerning
-  const textWidth1 = ctx.measureText(text[0]).width;
-  const textWidth2 = ctx.measureText(text[1]).width;
-  const totalTextWidth = textWidth1 + textWidth2 + kerning;
+  // Measure total width
+  let totalTextWidth = 0;
+  const charWidths = [];
+  for (let char of text) {
+    const width = ctx.measureText(char).width;
+    charWidths.push(width);
+    totalTextWidth += width;
+  }
+  totalTextWidth += kerning * (text.length - 1);
 
-  // Zentrieren des Textes auf dem Canvas
   const xBase = (canvas.width - totalTextWidth) / 2;
-  const yBase = canvas.height / 2 + fontSize / 3; // Vertikale Position leicht anpassen
+  const yBase = canvas.height / 2 + fontSize / 3;
 
-  // Zufällige Entscheidung für die Strichstärke (zwischen 2 und 8)
   const strokeWidth = Math.floor(Math.random() * 7) + 2;
-
-  // Zufällige Entscheidung, ob eine Kontur angewendet wird
   const applyStroke = Math.random() > 0.5;
 
-  if (applyStroke) {
-    // Wenn eine Kontur angewendet wird, nur die Kontur zeichnen
-    ctx.strokeStyle = 'black';
-    ctx.lineWidth = strokeWidth;
-    ctx.strokeText(text[0], xBase, yBase);
-    ctx.strokeText(text[1], xBase + textWidth1 + kerning, yBase);
-  } else {
-    // Wenn keine Kontur angewendet wird, fülle den Text schwarz
-    ctx.fillStyle = 'black';
-    ctx.fillText(text[0], xBase, yBase);
-    ctx.fillText(text[1], xBase + textWidth1 + kerning, yBase);
+  let currentX = xBase;
+  for (let i = 0; i < text.length; i++) {
+    if (applyStroke) {
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = strokeWidth;
+      ctx.strokeText(text[i], currentX, yBase);
+    } else {
+      ctx.fillStyle = 'black';
+      ctx.fillText(text[i], currentX, yBase);
+    }
+    currentX += charWidths[i] + kerning;
   }
 
-  // Aktualisieren der Variationsinformationen
   document.getElementById('variation-info').textContent = `Current Variation: ${currentVariation}/${maxVariations}`;
   currentVariation = (currentVariation % maxVariations) + 1;
 }
 
-// Initiales Logo beim Laden der Seite generieren
-document.fonts.ready.then(() => {
-  generateFontLogo();
-});
+function saveCanvasImage() {
+  const imageDataURL = canvas.toDataURL("image/png");
+  const newTab = window.open();
+  newTab.document.write(`<img src="${imageDataURL}" alt="Canvas Image"><p>Click and hold on image to save</p>`);
+}
