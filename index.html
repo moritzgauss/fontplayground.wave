@@ -60,13 +60,18 @@
   </style>
 </head>
 <body>
+<input type="text" id="customText" maxlength="4" placeholder="Enter 4 characters" style="font-size: 18px; margin-bottom: 10px; text-align: center;">
 
 <div id="pattern-container">
   <canvas id="patternCanvas" width="600" height="600"></canvas>
 </div>
 
+<br>
+
 <button onclick="generateFontLogo()">Generate New Font Logo</button>
 <p id="variation-info">Current Variation: 1/10000</p>
+
+<button onclick="saveCanvasImage()">Save as Image (Open in New Tab)</button>
 
 <!-- Link to the external JavaScript file -->
 <script src="fontlogo.js"></script>
